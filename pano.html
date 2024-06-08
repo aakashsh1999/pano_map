@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <!-- for optimal display on high DPI devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin/index.min.css"
+    />
+  </head>
+  <body>
+    <!-- the viewer container must have a defined size -->
+    <div id="viewer" style="width: 100vw; height: 100vh"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+          "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.module.js",
+          "@photo-sphere-viewer/autorotate-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin/index.module.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { Viewer } from "@photo-sphere-viewer/core";
+      import { AutorotatePlugin } from "@photo-sphere-viewer/autorotate-plugin";
+
+      const viewer = new Viewer({
+        container: document.querySelector("#viewer"),
+        panorama:
+          "https://cdn.shopify.com/s/files/1/0883/6880/8249/files/puydesancy.jpg?v=1717876976",
+        touchmoveTwoFingers: true,
+        mousewheelCtrlKey: true,
+
+        plugins: [
+          [
+            AutorotatePlugin,
+            {
+              autostartDelay: 1000,
+              autorotatePitch: "5deg",
+            },
+          ],
+        ],
+      });
+      viewer.addEventListener("dblclick", ({ data }) => {
+        viewer.animate({
+          yaw: data.yaw,
+          pitch: data.pitch,
+          zoom: 100,
+          speed: 1000,
+        });
+      });
+    </script>
+  </body>
+</html>
